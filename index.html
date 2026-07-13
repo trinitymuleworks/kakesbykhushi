@@ -22,6 +22,35 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- ===== Icon sprite (premium line-art) ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="ic-cake" viewBox="0 0 48 48">
+      <path d="M24 9c.6-2.6 2.6-4 4.8-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="24" cy="10.5" r="2.3" fill="currentColor"/>
+      <path d="M12 22q3 3 6 0 3 3 6 0 3 3 6 0 3 3 6 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 22v13M36 22v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M12 29h24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M8 35h32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ic-slice" viewBox="0 0 48 48">
+      <path d="M9 34 34 34 34 15Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M9 34q4 2.6 8 0 4-2.6 8 0 4 2.6 8 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M15 34 34 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="31" cy="12" r="2.2" fill="currentColor"/>
+    </symbol>
+    <symbol id="ic-cupcake" viewBox="0 0 48 48">
+      <path d="M14 22h20l-2.5 14a2 2 0 0 1-2 1.7H18.5a2 2 0 0 1-2-1.7Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M14 22c-2.6 0-4.5-2-4.5-4.4 0-2.3 1.8-4.2 4.2-4.3.5-3 3-5.3 6.3-5.3 2.5 0 4.7 1.4 5.7 3.6.7-.4 1.5-.6 2.4-.6 2.6 0 4.7 2.1 4.7 4.7 0 3.4-2.8 6.3-6.3 6.3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M20 28v5M24 27v6M28 28v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="ic-berry" viewBox="0 0 48 48">
+      <path d="M24 15c-1.5-3.5.5-7 4-8-.3 3.4-1.6 6-4 8Z" fill="currentColor"/>
+      <circle cx="18" cy="26" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="30" cy="26" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="24" cy="34" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/>
+    </symbol>
+  </svg>
+
   <!-- ===== Navbar ===== -->
   <header class="nav" id="nav">
     <div class="nav__inner">
@@ -184,67 +213,67 @@
 
     <div class="cakegrid reveal">
       <article class="cakecard">
-        <div class="cakecard__emoji">🎂</div>
+        <div class="cakecard__icon" style="--accent:#d4a13c"><svg class="ic"><use href="#ic-cake"/></svg></div>
         <h3>Classic Vanilla</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹600</span><span>1 Kg · ₹1100</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🍍</div>
+        <div class="cakecard__icon" style="--accent:#e0a808"><svg class="ic"><use href="#ic-cupcake"/></svg></div>
         <h3>Pineapple Paradise</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹600</span><span>1 Kg · ₹1100</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🥭</div>
+        <div class="cakecard__icon" style="--accent:#ec8a2b"><svg class="ic"><use href="#ic-slice"/></svg></div>
         <h3>Mango Mist</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹600</span><span>1 Kg · ₹1100</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🌸</div>
+        <div class="cakecard__icon" style="--accent:#e07aa2"><svg class="ic"><use href="#ic-cake"/></svg></div>
         <h3>Lychee Blossom</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹600</span><span>1 Kg · ₹1100</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🍮</div>
+        <div class="cakecard__icon" style="--accent:#bd7a2c"><svg class="ic"><use href="#ic-cupcake"/></svg></div>
         <h3>Butterscotch Caramel Crown</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹600</span><span>1 Kg · ₹1100</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">☕</div>
+        <div class="cakecard__icon" style="--accent:#8a5a3c"><svg class="ic"><use href="#ic-slice"/></svg></div>
         <h3>Mocha Velvet</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹600</span><span>1 Kg · ₹1100</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🫐</div>
+        <div class="cakecard__icon" style="--accent:#7c4a97"><svg class="ic"><use href="#ic-berry"/></svg></div>
         <h3>Black Currant</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹600</span><span>1 Kg · ₹1100</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🍓</div>
+        <div class="cakecard__icon" style="--accent:#e0556b"><svg class="ic"><use href="#ic-berry"/></svg></div>
         <h3>Fresh Fruit Overloaded</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹700</span><span>1 Kg · ₹1200</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🍰</div>
+        <div class="cakecard__icon" style="--accent:#dca63a"><svg class="ic"><use href="#ic-cake"/></svg></div>
         <h3>Rasmalai Royal</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹700</span><span>1 Kg · ₹1200</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🍫</div>
+        <div class="cakecard__icon" style="--accent:#5f3d2e"><svg class="ic"><use href="#ic-slice"/></svg></div>
         <h3>Black Forest</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹700</span><span>1 Kg · ₹1200</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🤍</div>
+        <div class="cakecard__icon" style="--accent:#9aa0a6"><svg class="ic"><use href="#ic-slice"/></svg></div>
         <h3>White Forest</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹700</span><span>1 Kg · ₹1200</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">🫐</div>
+        <div class="cakecard__icon" style="--accent:#5566c4"><svg class="ic"><use href="#ic-berry"/></svg></div>
         <h3>Blueberry Moon</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹700</span><span>1 Kg · ₹1200</span></div>
       </article>
       <article class="cakecard">
-        <div class="cakecard__emoji">❤️</div>
+        <div class="cakecard__icon" style="--accent:#b8283f"><svg class="ic"><use href="#ic-cake"/></svg></div>
         <h3>Red Velvet Indulgence</h3>
         <div class="cakecard__prices"><span>½ Kg · ₹700</span><span>1 Kg · ₹1200</span></div>
       </article>
