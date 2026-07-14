@@ -22,6 +22,17 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- ===== Loading screen ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <span class="loader__name" data-text="Kakes by Khushi">Kakes by Khushi</span>
+  </div>
+
+  <!-- ===== Premium cursor (desktop) ===== -->
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+
   <!-- ===== Icon sprite (premium line-art) ===== -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <symbol id="ic-cake" viewBox="0 0 48 48">
@@ -76,7 +87,13 @@
   <!-- ===== Hero ===== -->
   <section class="hero" id="home">
     <div class="hero__bg" aria-hidden="true"></div>
-    <div class="hero__content reveal">
+    <span class="sparkle" style="top:16%; left:10%; animation-delay:0s"></span>
+    <span class="sparkle" style="top:28%; left:46%; animation-delay:1.4s"></span>
+    <span class="sparkle" style="top:12%; right:22%; animation-delay:2.6s"></span>
+    <span class="sparkle" style="top:64%; left:18%; animation-delay:3.2s"></span>
+    <span class="sparkle" style="top:74%; right:14%; animation-delay:0.8s"></span>
+    <span class="sparkle" style="top:44%; right:8%; animation-delay:4.1s"></span>
+    <div class="hero__content">
       <span class="hero__badge">🌿 100% Pure Veg &nbsp;•&nbsp; Now Serving Hyderabad</span>
       <h1 class="hero__title">Cakes crafted <em>especially</em><br />for your celebration</h1>
       <p class="hero__sub">
@@ -94,7 +111,7 @@
       <p class="hero__note">📍 Nallagandla • Kondapur • Financial District • Hitech City</p>
     </div>
 
-    <div class="hero__art reveal" aria-hidden="true">
+    <div class="hero__art" aria-hidden="true">
       <span class="hero__blob hero__blob--1"></span>
       <span class="hero__blob hero__blob--2"></span>
       <svg class="hero__cake" viewBox="0 0 240 250" role="img">
@@ -113,8 +130,8 @@
         <path d="M86 110h68v5q-8.5 8-17 0-8.5 8-17 0-8.5 8-17 0-8.5 8-17 0Z" fill="#f7a8b8" stroke="#c65f7e" stroke-width="2" stroke-linejoin="round"/>
         <!-- candles -->
         <path d="M110 106V90M130 106V90" stroke="#c9a15a" stroke-width="4" stroke-linecap="round"/>
-        <path d="M110 88c-3-3 0-7 0-10 0 3 3 7 0 10Z" fill="#f4a72c"/>
-        <path d="M130 88c-3-3 0-7 0-10 0 3 3 7 0 10Z" fill="#f4a72c"/>
+        <path class="flame" d="M110 88c-3-3 0-7 0-10 0 3 3 7 0 10Z" fill="#f4a72c"/>
+        <path class="flame flame--alt" d="M130 88c-3-3 0-7 0-10 0 3 3 7 0 10Z" fill="#f4a72c"/>
         <!-- little flowers -->
         <g transform="translate(150,170)"><ellipse rx="6.5" ry="3" fill="#f4c542"/><ellipse rx="3" ry="6.5" fill="#f4c542"/><circle r="2.4" fill="#c65f7e"/></g>
         <g transform="translate(96,128)"><ellipse rx="6" ry="2.8" fill="#e0556b"/><ellipse rx="2.8" ry="6" fill="#e0556b"/><circle r="2.2" fill="#f4c542"/></g>
@@ -127,6 +144,11 @@
       </svg>
     </div>
   </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="divider reveal" aria-hidden="true">
+    <span class="divider__line"></span><span class="divider__mark">&#10022;</span><span class="divider__line"></span>
+  </div>
 
   <!-- ===== Why Us ===== -->
   <section class="section why" id="why">
@@ -257,6 +279,11 @@
       </a>
     </div>
   </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="divider reveal" aria-hidden="true">
+    <span class="divider__line"></span><span class="divider__mark">&#10022;</span><span class="divider__line"></span>
+  </div>
 
   <!-- ===== Areas ===== -->
   <section class="section areas" id="areas">

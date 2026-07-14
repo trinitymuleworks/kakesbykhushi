@@ -53,8 +53,41 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   background: var(--wa);
   color: #fff;
   box-shadow: 0 12px 26px -10px rgba(37, 211, 102, 0.7);
+  position: relative;
+  overflow: hidden;
 }
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+.btn--primary:hover::before { left: 130%; }
 .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 18px 30px -10px rgba(37, 211, 102, 0.8); }
+/* Slow periodic gold shine on the big order CTAs (every ~5s, not continuous) */
+.btn--lg.btn--primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 38%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 220, 150, 0.6), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: gold-shine 5s ease-in-out infinite;
+}
+@keyframes gold-shine {
+  0% { left: -60%; }
+  14% { left: 150%; }
+  100% { left: 150%; }
+}
 .btn--ghost {
   background: rgba(255, 255, 255, 0.7);
   color: var(--rose);
@@ -91,6 +124,21 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
 .nav__links { display: flex; align-items: center; gap: 28px; }
 .nav__links a { font-weight: 500; font-size: 0.95rem; color: var(--ink); transition: color 0.2s ease; }
 .nav__links a:hover { color: var(--rose); }
+.nav__links a:not(.nav__cta) { position: relative; }
+.nav__links a:not(.nav__cta)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gold), #e6c88a);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.nav__links a:not(.nav__cta):hover::after { transform: scaleX(1); }
 .nav__cta {
   background: var(--rose);
   color: #fff !important;
@@ -129,6 +177,8 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
     radial-gradient(circle at 30% 20%, rgba(247, 168, 184, 0.35), transparent 50%),
     radial-gradient(circle at 80% 85%, rgba(201, 161, 90, 0.18), transparent 50%),
     linear-gradient(160deg, var(--cream) 0%, var(--cream-2) 100%);
+  background-size: 160% 160%, 170% 170%, 100% 100%;
+  background-repeat: no-repeat;
 }
 .hero__badge {
   display: inline-block;
@@ -156,17 +206,24 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   place-items: center;
   min-height: 380px;
 }
+@property --floatY {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
 .hero__cake {
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: 380px;
   filter: drop-shadow(0 22px 30px rgba(198, 95, 126, 0.22));
-  animation: floaty 6s ease-in-out infinite;
+  /* --floatY = gentle idle float, --parY = scroll parallax (set from JS) */
+  transform: translateY(var(--floatY, 0px)) translateY(var(--parY, 0px));
+  animation: floaty 9s ease-in-out infinite;
 }
 @keyframes floaty {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%, 100% { --floatY: -8px; }
+  50% { --floatY: 8px; }
 }
 .hero__blob {
   position: absolute;
@@ -250,8 +307,8 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   border: 1px solid rgba(247, 168, 184, 0.3);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.cakecard:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
-.cakecard:hover .cakecard__icon { transform: scale(1.06) rotate(-2deg); }
+.cakecard:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+.cakecard:hover .cakecard__icon { transform: scale(1.05); }
 .cakecard__icon {
   width: 78px;
   height: 78px;
@@ -268,7 +325,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.8),
     0 10px 20px -12px color-mix(in srgb, var(--accent) 65%, transparent);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .cakecard__icon .ic { width: 42px; height: 42px; display: block; }
 .cakecard h3 { font-size: 1.12rem; color: var(--rose); margin-bottom: 12px; min-height: 2.5em; display: flex; align-items: center; justify-content: center; }
@@ -366,19 +423,258 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   display: grid;
   place-items: center;
   box-shadow: 0 14px 30px -8px rgba(37, 211, 102, 0.7);
-  animation: pulse 2.4s infinite;
+  animation: fab-pulse 8s ease-in-out infinite;
   transition: transform 0.2s ease;
 }
-.fab:hover { transform: scale(1.08); }
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
-  70% { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+.fab:hover { animation: none; transform: scale(1.08); }
+@keyframes fab-pulse {
+  0%, 100% { transform: scale(1); }
+  4% { transform: scale(1.05); }
+  9% { transform: scale(1); }
 }
 
 /* ===== Reveal animation ===== */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.7, 0.25, 1); }
 .reveal.visible { opacity: 1; transform: none; }
+
+/* ===== Staggered child reveals ===== */
+/* Let the container act only as a trigger (fade, no slide) so children can cascade */
+.pills.reveal,
+.cakegrid.reveal,
+.areas__pills.reveal,
+.goodtoknow.reveal { transform: none; }
+
+/* Hide children only until their container is revealed; the entrance
+   animation (backwards fill) covers the staggered delay, then reverts
+   to this visible resting state so hover transforms keep working. */
+.pills:not(.visible) .pill,
+.cakegrid:not(.visible) .cakecard,
+.areas__pills:not(.visible) span,
+.goodtoknow:not(.visible) li { opacity: 0; }
+
+.pills.visible .pill,
+.cakegrid.visible .cakecard,
+.areas__pills.visible span,
+.goodtoknow.visible li { animation: rise-in 0.8s cubic-bezier(0.22, 0.7, 0.25, 1) backwards; }
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cascade timing (~100ms between items; harmless until an animation runs) */
+.pill:nth-child(1), .cakecard:nth-child(1), .areas__pills span:nth-child(1), .goodtoknow li:nth-child(1) { animation-delay: 0s; }
+.pill:nth-child(2), .cakecard:nth-child(2), .areas__pills span:nth-child(2), .goodtoknow li:nth-child(2) { animation-delay: 0.10s; }
+.pill:nth-child(3), .cakecard:nth-child(3), .areas__pills span:nth-child(3), .goodtoknow li:nth-child(3) { animation-delay: 0.20s; }
+.pill:nth-child(4), .cakecard:nth-child(4), .areas__pills span:nth-child(4), .goodtoknow li:nth-child(4) { animation-delay: 0.30s; }
+.pill:nth-child(5), .cakecard:nth-child(5) { animation-delay: 0.40s; }
+.pill:nth-child(6), .cakecard:nth-child(6) { animation-delay: 0.50s; }
+.cakecard:nth-child(7) { animation-delay: 0.60s; }
+.cakecard:nth-child(8) { animation-delay: 0.70s; }
+.cakecard:nth-child(9) { animation-delay: 0.80s; }
+.cakecard:nth-child(10) { animation-delay: 0.90s; }
+.cakecard:nth-child(11) { animation-delay: 1.00s; }
+.cakecard:nth-child(12) { animation-delay: 1.10s; }
+.cakecard:nth-child(13) { animation-delay: 1.20s; }
+
+/* ===== Cinematic hero entrance (plays as the loader clears) ===== */
+.hero__bg { opacity: 0; animation: fade-in 0.8s ease forwards 0.75s, bg-drift 24s ease-in-out 1.6s infinite alternate; }
+.hero__art { opacity: 0; animation: cake-in 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) forwards 0.8s; }
+.hero__content > * { opacity: 0; }
+.hero__content > *:nth-child(1) { animation: hero-rise 0.55s cubic-bezier(0.22, 0.7, 0.25, 1) forwards 0.85s; }
+.hero__title { animation: hero-curtain 0.7s cubic-bezier(0.22, 0.7, 0.25, 1) forwards 0.92s; }
+.hero__content > *:nth-child(3) { animation: hero-rise 0.55s cubic-bezier(0.22, 0.7, 0.25, 1) forwards 1.02s; }
+.hero__content > *:nth-child(4) { animation: hero-rise 0.55s cubic-bezier(0.22, 0.7, 0.25, 1) forwards 1.12s; }
+.hero__content > *:nth-child(5) { animation: hero-rise 0.55s cubic-bezier(0.22, 0.7, 0.25, 1) forwards 1.2s; }
+
+@keyframes fade-in { to { opacity: 1; } }
+@keyframes cake-in {
+  from { opacity: 0; transform: scale(1.08); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-curtain {
+  from { opacity: 0; clip-path: inset(100% 0 0 0); transform: translateY(18px); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(0); }
+}
+@keyframes bg-drift {
+  from { background-position: 0% 0%, 100% 100%, 0 0; }
+  to { background-position: 14% 8%, 86% 92%, 0 0; }
+}
+
+/* ===== Hero decorative motion ===== */
+.hero__blob--1 { animation: drift-1 16s ease-in-out infinite; }
+.hero__blob--2 { animation: drift-2 20s ease-in-out infinite; }
+@keyframes drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(18px, -14px) scale(1.06); }
+}
+@keyframes drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-16px, 12px) scale(1.05); }
+}
+.hero__cake .flame {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: flicker 1.9s ease-in-out infinite;
+}
+.hero__cake .flame--alt { animation-delay: -0.95s; }
+@keyframes flicker {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.72; transform: scaleY(0.88) translateY(0.8px); }
+}
+
+/* ===== Section heading accent ===== */
+.section__head h2 { position: relative; }
+.section__head h2::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 3px;
+  margin: 14px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--pink), var(--gold));
+  transition: width 0.7s ease 0.15s;
+}
+.section__head.visible h2::after { width: 56px; }
+
+/* ===== Scroll progress bar ===== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 200;
+  background: linear-gradient(90deg, var(--gold), #e8c98a);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* ===== Loading screen ===== */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, var(--cream) 0%, var(--cream-2) 100%);
+  animation: loader-hide 0.45s ease forwards 0.75s;
+}
+.loader__name {
+  position: relative;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  letter-spacing: 0.01em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--gold);
+}
+.loader__name::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: var(--gold);
+  -webkit-text-stroke: 0;
+  clip-path: inset(0 100% 0 0);
+  animation: gold-fill 0.6s cubic-bezier(0.5, 0, 0.2, 1) forwards 0.1s;
+}
+@keyframes gold-fill { to { clip-path: inset(0 0 0 0); } }
+@keyframes loader-hide { to { opacity: 0; visibility: hidden; } }
+
+/* ===== Premium cursor (desktop only) ===== */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  display: none;
+}
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--gold);
+}
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid rgba(201, 161, 90, 0.55);
+  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+.cursor-ring.is-hover {
+  width: 56px;
+  height: 56px;
+  background: rgba(201, 161, 90, 0.12);
+  border-color: var(--gold);
+}
+.cursor-ring.is-view {
+  width: 76px;
+  height: 76px;
+  background: rgba(58, 43, 47, 0.55);
+  border-color: transparent;
+}
+.cursor-ring.is-view::after {
+  content: "View";
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+body.cursor-ready { cursor: none; }
+body.cursor-ready a,
+body.cursor-ready button,
+body.cursor-ready .pill,
+body.cursor-ready .cakecard { cursor: none; }
+@media (hover: hover) and (pointer: fine) {
+  .cursor-dot, .cursor-ring { display: grid; place-items: center; }
+}
+
+/* ===== Gold sparkles (hero) ===== */
+.sparkle {
+  position: absolute;
+  z-index: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 161, 90, 0.9), rgba(201, 161, 90, 0) 70%);
+  pointer-events: none;
+  opacity: 0;
+  animation: sparkle-float 7s ease-in-out infinite;
+}
+@keyframes sparkle-float {
+  0%, 100% { opacity: 0; transform: translateY(4px) scale(0.7); }
+  50% { opacity: 0.5; transform: translateY(-12px) scale(1.2); }
+}
+
+/* ===== Section dividers ===== */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 6px 22px;
+}
+.divider__mark { color: var(--gold); font-size: 0.95rem; opacity: 0.85; }
+.divider__line {
+  height: 1px;
+  width: 0;
+  background: linear-gradient(90deg, transparent, var(--gold));
+  transition: width 0.9s cubic-bezier(0.22, 0.7, 0.25, 1) 0.1s;
+}
+.divider__line:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+.divider.visible .divider__line { width: clamp(60px, 18vw, 130px); }
 
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
@@ -428,7 +724,17 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .fab, .hero__cake { animation: none; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .reveal, .reveal * { opacity: 1 !important; transform: none !important; }
+  .pills .pill, .cakegrid .cakecard, .areas__pills span, .goodtoknow li,
+  .hero__content > *, .hero__bg, .hero__art { opacity: 1 !important; }
+  .hero__title { clip-path: none !important; }
+  .section__head h2::after { width: 56px; }
+  .divider__line { width: clamp(60px, 18vw, 130px) !important; }
+  .scroll-progress { display: none; }
+  .loader { display: none !important; }
+  .cursor-dot, .cursor-ring { display: none !important; }
+  body.cursor-ready { cursor: auto !important; }
+  .sparkle { opacity: 0 !important; }
   html { scroll-behavior: auto; }
 }
