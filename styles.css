@@ -715,12 +715,54 @@ body.cursor-ready .cakecard { cursor: none; }
 }
 @media (max-width: 560px) {
   .goodtoknow ul { grid-template-columns: 1fr; }
-  .cakegrid { grid-template-columns: repeat(2, 1fr); }
-  .cakecard h3 { min-height: 0; }
   .section { padding: 60px 20px; }
   .order__card { padding: 46px 24px; }
   .btn { width: 100%; justify-content: center; }
   .hero__actions { flex-direction: column; }
+}
+
+/* ===== Compact list-style menu on phones/tablets (one short row per cake) ===== */
+@media (max-width: 820px) {
+  .cakegrid { grid-template-columns: 1fr !important; gap: 10px; }
+  .cakecard {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: 14px;
+    text-align: left;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+  }
+  .cakecard__icon {
+    width: 46px;
+    height: 46px;
+    margin: 0;
+  }
+  .cakecard__icon .ic { width: 26px; height: 26px; }
+  .cakecard h3 {
+    margin: 0;
+    min-height: 0;
+    display: block;
+    text-align: left;
+    font-size: 1.02rem;
+  }
+  .cakecard:hover { transform: none; }
+  .cakecard__prices {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+    text-align: right;
+  }
+  .cakecard__prices span {
+    padding: 4px 9px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 400px) {
+  .cakecard__prices { flex-direction: column; align-items: flex-end; }
 }
 
 @media (prefers-reduced-motion: reduce) {
