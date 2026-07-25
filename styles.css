@@ -499,6 +499,25 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
 .tile-cta__text { color: var(--ink-soft); font-size: 1rem; }
 .tile-cta__text strong { color: var(--ink); }
 .tile-cta__arrow { color: var(--gold); font-weight: 700; }
+.cta-strike {
+  position: relative;
+  color: var(--ink-soft);
+  text-decoration: line-through;
+  text-decoration-color: var(--rose);
+  text-decoration-thickness: 2px;
+  opacity: 0.65;
+  font-weight: 500;
+}
+.cta-fix {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  color: var(--rose);
+  font-size: 1.5em;
+  line-height: 1;
+  display: inline-block;
+  transform: rotate(-5deg);
+  margin: 0 0.12em;
+}
 
 @media (max-width: 620px) {
   .tilegrid { gap: 12px; }
