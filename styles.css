@@ -504,8 +504,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   color: var(--ink-soft);
   text-decoration: line-through;
   text-decoration-color: var(--rose);
-  text-decoration-thickness: 2px;
-  opacity: 0.65;
+  text-decoration-thickness: 3px;
   font-weight: 500;
 }
 .cta-fix {
@@ -518,6 +517,31 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   transform: rotate(-5deg);
   margin: 0 0.12em;
 }
+.tile-cta__chat {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #128c4b;
+}
+.tile-cta__waicon { width: 16px; height: 16px; fill: #25d366; }
+.tile-cta__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #25d366;
+  box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55);
+  animation: wa-pulse 1.9s ease-out infinite;
+}
+@keyframes wa-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+  70% { box-shadow: 0 0 0 9px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+.tile-cta__chat .tile-cta__arrow { color: #128c4b; transition: transform 0.2s ease; }
+.tile-cta:hover .tile-cta__chat .tile-cta__arrow { transform: translateX(4px); }
 
 @media (max-width: 620px) {
   .tilegrid { gap: 12px; }
@@ -525,9 +549,10 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   .fliptile__ic { width: 38px; height: 38px; }
   .fliptile__front h3 { font-size: 1.2rem; }
   .fliptile__hint { font-size: 0.72rem; }
-  .tilegrid.is-open .tile-cta { height: 140px; padding: 10px 12px; gap: 4px; }
+  .tilegrid.is-open .tile-cta { height: 140px; padding: 10px 12px; gap: 6px; }
   .tilegrid.is-open .tile-cta .tile-cta__title { font-size: 0.98rem; }
-  .tilegrid.is-open .tile-cta .tile-cta__text { font-size: 0.78rem; line-height: 1.3; }
+  .tilegrid.is-open .tile-cta .tile-cta__text { display: none; }
+  .tilegrid.is-open .tile-cta .tile-cta__chat { margin-top: 4px; font-size: 0.8rem; }
 }
 
 .goodtoknow {
