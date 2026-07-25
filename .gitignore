@@ -14,6 +14,9 @@ node_modules/
 # Cursor
 .cursor/
 
+# Local deploy artifacts
+*.zip
+
 # wrangler files
 .wrangler
 .dev.vars*
