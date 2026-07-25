@@ -492,6 +492,9 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .tile-cta:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+/* While a category is open, the CTA becomes a normal cell so the remaining
+   four tiles form a clean 2x2 with no empty gap. */
+.tilegrid.is-open .tile-cta { grid-column: auto; height: 190px; }
 .tile-cta__title { font-family: var(--font-head); font-size: 1.35rem; color: var(--rose); }
 .tile-cta__text { color: var(--ink-soft); font-size: 1rem; }
 .tile-cta__text strong { color: var(--ink); }
@@ -503,6 +506,9 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   .fliptile__ic { width: 38px; height: 38px; }
   .fliptile__front h3 { font-size: 1.2rem; }
   .fliptile__hint { font-size: 0.72rem; }
+  .tilegrid.is-open .tile-cta { height: 140px; padding: 10px 12px; gap: 4px; }
+  .tilegrid.is-open .tile-cta .tile-cta__title { font-size: 0.98rem; }
+  .tilegrid.is-open .tile-cta .tile-cta__text { font-size: 0.78rem; line-height: 1.3; }
 }
 
 .goodtoknow {
