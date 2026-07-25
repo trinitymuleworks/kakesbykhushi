@@ -595,6 +595,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   border: 1px solid rgba(247, 168, 184, 0.3);
 }
 
+
 /* ===== Order ===== */
 .order { max-width: none; padding-top: 30px; }
 .order__card {
