@@ -113,3 +113,73 @@ if ("IntersectionObserver" in window) {
 } else {
   revealEls.forEach((el) => el.classList.add("visible"));
 }
+
+// ===== Cake menu category flip tiles =====
+const flipTiles = document.querySelectorAll(".fliptile");
+const tileBaseHeight = (tile) =>
+  parseFloat(getComputedStyle(tile).height) || 300;
+
+const sizeTile = (tile) => {
+  if (tile.classList.contains("flipped")) {
+    const back = tile.querySelector(".fliptile__back");
+    // Grow to fit all flavours so nothing needs inner scrolling
+    const needed = back.scrollHeight;
+    const base = tile.dataset.baseH ? parseFloat(tile.dataset.baseH) : 300;
+    tile.style.height = `${Math.max(base, needed)}px`;
+  } else {
+    tile.style.height = "";
+  }
+};
+
+const tileGrid = document.querySelector(".tilegrid");
+
+flipTiles.forEach((tile) => {
+  // Remember the collapsed height for this breakpoint
+  tile.dataset.baseH = String(tileBaseHeight(tile));
+  const toggle = () => {
+    const willOpen = !tile.classList.contains("flipped");
+    // Only one tile open at a time — collapse the others
+    flipTiles.forEach((t) => {
+      if (t !== tile) {
+        t.classList.remove("flipped");
+        t.style.height = "";
+      }
+    });
+    tile.classList.toggle("flipped", willOpen);
+    if (tileGrid) tileGrid.classList.toggle("is-open", willOpen);
+    sizeTile(tile);
+    if (willOpen) {
+      // Bring the opened tile to the centre of the screen
+      setTimeout(
+        () => tile.scrollIntoView({ behavior: "smooth", block: "center" }),
+        80
+      );
+    }
+  };
+  tile.addEventListener("click", (e) => {
+    if (e.target.closest("a")) return; // let WhatsApp links work
+    toggle();
+  });
+  tile.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggle();
+    }
+  });
+});
+
+// Recompute heights of any open tiles when the layout width changes
+let resizeTimer;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    flipTiles.forEach((tile) => {
+      if (!tile.classList.contains("flipped")) {
+        tile.style.height = "";
+        tile.dataset.baseH = String(tileBaseHeight(tile));
+      } else {
+        sizeTile(tile);
+      }
+    });
+  }, 150);
+});

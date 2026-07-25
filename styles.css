@@ -119,8 +119,8 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   justify-content: space-between;
 }
 .nav__brand { display: flex; flex-direction: column; line-height: 1.1; }
-.nav__brand-name { font-family: var(--font-head); font-size: 1.35rem; font-weight: 700; color: var(--rose); }
-.nav__brand-tag { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.nav__brand-name { font-family: var(--font-head); font-size: 2rem; font-weight: 700; color: var(--rose); letter-spacing: 0.01em; }
+.nav__brand-tag { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
 .nav__links { display: flex; align-items: center; gap: 28px; }
 .nav__links a { font-weight: 500; font-size: 0.95rem; color: var(--ink); transition: color 0.2s ease; }
 .nav__links a:hover { color: var(--rose); }
@@ -247,12 +247,12 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
 .section__head { text-align: center; max-width: 680px; margin: 0 auto 50px; }
 .eyebrow {
   display: inline-block;
-  font-size: 0.78rem;
-  letter-spacing: 0.2em;
+  font-size: 1.05rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 10px;
+  font-weight: 700;
+  margin-bottom: 12px;
 }
 .section__head h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); color: var(--ink); }
 .section__lead { margin-top: 14px; color: var(--ink-soft); }
@@ -338,6 +338,136 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   font-weight: 600;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
+}
+
+/* ===== Cake menu category flip tiles ===== */
+/* Cake Menu title styled like a full heading (no separate h2 now) */
+.cakemenu .section__head { margin-bottom: 16px; }
+.cakemenu .eyebrow {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--ink);
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.tilegrid__hint {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+.tilegrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 880px;
+  margin: 0 auto;
+  transition: max-width 0.4s ease;
+}
+/* When a tile is open, isolate it: hide the rest and center the one clicked */
+.tilegrid.is-open {
+  grid-template-columns: 1fr;
+  max-width: 560px;
+}
+.tilegrid.is-open .fliptile:not(.flipped) { display: none; }
+.fliptile {
+  perspective: 1500px;
+  height: 300px;
+  cursor: pointer;
+  border-radius: var(--radius);
+  outline: none;
+  transition: height 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.fliptile:focus-visible { box-shadow: 0 0 0 3px rgba(198, 95, 126, 0.45); }
+.fliptile__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.fliptile.flipped .fliptile__inner { transform: rotateY(180deg); }
+.fliptile__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+.fliptile__front {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+  color: #fff;
+  background: linear-gradient(150deg, var(--tint2, var(--pink-deep)) 0%, var(--tint, var(--rose)) 100%);
+}
+.fliptile__front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, 0.28), transparent 55%);
+  pointer-events: none;
+}
+.fliptile__ic { width: 62px; height: 62px; color: #fff; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15)); }
+.fliptile__front h3 { font-family: var(--font-head); font-size: 1.7rem; color: #fff; }
+.fliptile__front .fliptile__hint { color: rgba(255, 255, 255, 0.85); }
+.fliptile__hint {
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+.fliptile__back {
+  transform: rotateY(180deg);
+  background: #fff;
+  border: 1px solid rgba(247, 168, 184, 0.4);
+  padding: 20px 22px 16px;
+}
+.fliptile__backhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.fliptile__backhead h4 { font-family: var(--font-head); font-size: 1.25rem; color: var(--rose); }
+.fliptile__backhead span { font-size: 0.78rem; color: var(--ink-soft); font-weight: 600; }
+.fliptile__back .fliptile__hint { color: var(--ink-soft); text-align: center; margin-top: 8px; flex-shrink: 0; }
+.flavlist {
+  list-style: none;
+  margin: 0;
+}
+.flavlist li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px dashed rgba(198, 95, 126, 0.18);
+  font-size: 0.9rem;
+}
+.flavlist li:last-child { border-bottom: none; }
+.flavlist li span:first-child { color: var(--ink); }
+.flavlist li span:last-child { color: var(--rose); font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.flav-soon {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--ink-soft);
+  gap: 6px;
+}
+.flav-soon a { color: var(--rose); font-weight: 600; }
+@media (max-width: 620px) {
+  .tilegrid { grid-template-columns: 1fr; gap: 16px; }
+  .fliptile { height: 270px; }
 }
 
 .goodtoknow {
