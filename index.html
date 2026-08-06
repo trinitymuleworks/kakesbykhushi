@@ -27,10 +27,6 @@
     <span class="loader__name" data-text="Kakes by Khushi">Kakes by Khushi</span>
   </div>
 
-  <!-- ===== Premium cursor (desktop) ===== -->
-  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-
   <div class="scroll-progress" aria-hidden="true"></div>
 
   <!-- ===== Icon sprite (premium line-art) ===== -->
@@ -177,6 +173,10 @@
               <li><span>Blueberry Moon</span><span>₹699 / ₹1199</span></li>
               <li><span>Red Velvet Indulgence</span><span>₹699 / ₹1199</span></li>
             </ul>
+            <button type="button" class="flav-designs-btn" data-open-designs>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><path d="M21 15l-4.5-4.5L7 20"/></svg>
+              Explore our cake designs
+            </button>
             <p class="flav-note">These prices are for our lovely classic designs. Dreaming of something more elaborate or fully custom? We'd love to craft it for you — just share your idea and we'll share a sweet little quote. 💛</p>
             <span class="fliptile__hint">Tap to go back</span>
           </div>
@@ -380,6 +380,56 @@
   <a class="fab" href="https://wa.me/919174080087?text=Hi%20Kakes%20by%20Khushi!%20I'd%20like%20to%20place%20an%20order." target="_blank" rel="noopener" aria-label="Order on WhatsApp">
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.72-.85-1.99-.94-.27-.1-.46-.15-.66.15-.19.29-.76.94-.93 1.13-.17.19-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.66-1.6-.9-2.19-.24-.57-.48-.49-.66-.5l-.56-.01c-.19 0-.51.07-.77.36-.27.29-1.01.99-1.01 2.42 0 1.43 1.04 2.81 1.19 3 .15.19 2.05 3.13 4.97 4.39.69.3 1.24.48 1.66.61.7.22 1.33.19 1.83.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34zM12.04 21.5h-.01a9.44 9.44 0 0 1-4.81-1.32l-.34-.2-3.57.94.95-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.03c0-5.22 4.25-9.47 9.48-9.47 2.53 0 4.9.99 6.69 2.78a9.42 9.42 0 0 1 2.77 6.7c0 5.22-4.25 9.47-9.49 9.47zM20.52 3.49A11.78 11.78 0 0 0 12.04 0C5.5 0 .18 5.32.18 11.86c0 2.09.55 4.13 1.59 5.93L.08 24l6.37-1.67a11.82 11.82 0 0 0 5.59 1.42h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.39-8.4z"/></svg>
   </a>
+
+  <!-- ===== Cake Designs gallery modal ===== -->
+  <div class="designs" id="designsModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="designsTitle">
+    <div class="designs__backdrop" data-close-designs></div>
+    <div class="designs__panel" role="document">
+      <header class="designs__head">
+        <div class="designs__heading">
+          <span class="designs__eyebrow">Our Cake Designs</span>
+          <h3 id="designsTitle">Explore &amp; get inspired</h3>
+        </div>
+        <button type="button" class="designs__close" data-close-designs aria-label="Close designs">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </header>
+
+      <div class="designs__tabs" role="tablist" aria-label="Design types">
+        <button type="button" class="designs__tab is-active" role="tab" aria-selected="true" data-tab="simple">Simple Designs</button>
+        <button type="button" class="designs__tab" role="tab" aria-selected="false" data-tab="complex">Complex &amp; Custom</button>
+      </div>
+
+      <div class="designs__body">
+        <p class="designs__note">Any design below can be made in <strong>any flavour</strong> from our menu. 💛</p>
+        <div class="designs__grid" id="designsGrid" role="tabpanel" aria-label="Simple designs"></div>
+
+        <div class="designs__complex" id="designsComplex" role="tabpanel" aria-label="Complex and custom designs" hidden>
+          <div class="designs__empty">
+            <span class="designs__empty-ic" aria-hidden="true">🎨</span>
+            <p>Complex &amp; custom designs coming soon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Lightbox (single design viewer) ===== -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Design preview">
+    <button type="button" class="lightbox__close" data-close-lightbox aria-label="Close preview">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <button type="button" class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous design">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="lightbox__stage">
+      <img class="lightbox__img" id="lightboxImg" src="" alt="Cake design preview" />
+      <span class="lightbox__count" id="lightboxCount"></span>
+    </div>
+    <button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next design">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
 
   <script src="script.js"></script>
 </body>

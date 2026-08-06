@@ -24,52 +24,6 @@ onScroll();
 window.addEventListener("scroll", onScroll, { passive: true });
 window.addEventListener("resize", onScroll, { passive: true });
 
-// ===== Premium cursor (desktop, pointer-fine only) =====
-const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-if (finePointer && !reduceMotion) {
-  const dot = document.getElementById("cursorDot");
-  const ring = document.getElementById("cursorRing");
-  if (dot && ring) {
-    document.body.classList.add("cursor-ready");
-    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-    let rx = mx, ry = my;
-
-    window.addEventListener("mousemove", (e) => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.left = `${mx}px`;
-      dot.style.top = `${my}px`;
-      dot.style.opacity = "1";
-      ring.style.opacity = "1";
-    });
-
-    const render = () => {
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
-      ring.style.left = `${rx}px`;
-      ring.style.top = `${ry}px`;
-      requestAnimationFrame(render);
-    };
-    requestAnimationFrame(render);
-
-    document.querySelectorAll("a, button, .pill, .cakecard").forEach((el) => {
-      el.addEventListener("mouseenter", () => ring.classList.add("is-hover"));
-      el.addEventListener("mouseleave", () => ring.classList.remove("is-hover"));
-    });
-
-    const art = document.querySelector(".hero__art");
-    if (art) {
-      art.addEventListener("mouseenter", () => ring.classList.add("is-view"));
-      art.addEventListener("mouseleave", () => ring.classList.remove("is-view"));
-    }
-
-    document.addEventListener("mouseleave", () => {
-      dot.style.opacity = "0";
-      ring.style.opacity = "0";
-    });
-  }
-}
-
 // ===== Mobile menu toggle =====
 const toggle = document.getElementById("navToggle");
 const links = document.getElementById("navLinks");
@@ -167,6 +121,258 @@ flipTiles.forEach((tile) => {
     }
   });
 });
+
+// ===== Cake designs gallery =====
+const DESIGN_COUNT_SIMPLE = 39;
+const buildDesignList = (folder, count) =>
+  Array.from({ length: count }, (_, i) => {
+    const n = String(i + 1).padStart(2, "0");
+    return {
+      thumb: `assets/designs/${folder}/thumbs/${folder}-${n}.jpg`,
+      full: `assets/designs/${folder}/${folder}-${n}.jpg`,
+    };
+  });
+
+const simpleDesigns = buildDesignList("simple", DESIGN_COUNT_SIMPLE);
+
+const designsModal = document.getElementById("designsModal");
+const designsGrid = document.getElementById("designsGrid");
+
+if (designsModal && designsGrid) {
+  const designsComplex = document.getElementById("designsComplex");
+  const openBtns = document.querySelectorAll("[data-open-designs]");
+  const closeEls = designsModal.querySelectorAll("[data-close-designs]");
+  const tabs = designsModal.querySelectorAll(".designs__tab");
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxCount = document.getElementById("lightboxCount");
+
+  let gridBuilt = false;
+  let lastFocused = null;
+  let currentIndex = 0;
+
+  const buildGrid = () => {
+    if (gridBuilt) return;
+    const frag = document.createDocumentFragment();
+    simpleDesigns.forEach((design, i) => {
+      const cell = document.createElement("button");
+      cell.type = "button";
+      cell.className = "design-cell";
+      cell.setAttribute("aria-label", `View cake design ${i + 1}`);
+      cell.dataset.index = String(i);
+
+      const img = document.createElement("img");
+      img.src = design.thumb;
+      img.alt = `Cake design ${i + 1}`;
+      img.loading = "lazy";
+      img.decoding = "async";
+      const markLoaded = () => cell.classList.add("is-loaded");
+      if (img.complete) markLoaded();
+      else {
+        img.addEventListener("load", markLoaded, { once: true });
+        img.addEventListener("error", markLoaded, { once: true });
+      }
+
+      cell.appendChild(img);
+      cell.addEventListener("click", () => openLightbox(i));
+      frag.appendChild(cell);
+    });
+    designsGrid.appendChild(frag);
+    gridBuilt = true;
+  };
+
+  const setTab = (name) => {
+    tabs.forEach((t) => {
+      const active = t.dataset.tab === name;
+      t.classList.toggle("is-active", active);
+      t.setAttribute("aria-selected", String(active));
+    });
+    const showSimple = name === "simple";
+    designsGrid.hidden = !showSimple;
+    if (designsComplex) designsComplex.hidden = showSimple;
+    const body = designsModal.querySelector(".designs__note");
+    if (body) body.hidden = !showSimple;
+  };
+
+  const openModal = () => {
+    lastFocused = document.activeElement;
+    buildGrid();
+    setTab("simple");
+    designsModal.classList.add("is-open");
+    designsModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    const closeBtn = designsModal.querySelector(".designs__close");
+    if (closeBtn) closeBtn.focus();
+  };
+
+  const closeModal = () => {
+    designsModal.classList.remove("is-open");
+    designsModal.setAttribute("aria-hidden", "true");
+    if (!lightbox || !lightbox.classList.contains("is-open")) {
+      document.body.classList.remove("modal-open");
+    }
+    if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+  };
+
+  openBtns.forEach((b) => b.addEventListener("click", openModal));
+  closeEls.forEach((el) => el.addEventListener("click", closeModal));
+  tabs.forEach((t) => t.addEventListener("click", () => setTab(t.dataset.tab)));
+
+  // ----- Lightbox -----
+  const showImage = (i) => {
+    currentIndex = (i + simpleDesigns.length) % simpleDesigns.length;
+    lightboxImg.classList.remove("is-loaded");
+    lightboxImg.src = simpleDesigns[currentIndex].full;
+    lightboxImg.alt = `Cake design ${currentIndex + 1}`;
+    if (lightboxImg.complete) lightboxImg.classList.add("is-loaded");
+    if (lightboxCount)
+      lightboxCount.textContent = `${currentIndex + 1} / ${simpleDesigns.length}`;
+  };
+
+  function openLightbox(i) {
+    if (!lightbox) return;
+    showImage(i);
+    lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+  }
+
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.classList.remove("is-open");
+    lightbox.setAttribute("aria-hidden", "true");
+    if (!designsModal.classList.contains("is-open")) {
+      document.body.classList.remove("modal-open");
+    }
+  };
+
+  if (lightbox) {
+    lightboxImg.addEventListener("load", () =>
+      lightboxImg.classList.add("is-loaded")
+    );
+    lightbox
+      .querySelector("[data-close-lightbox]")
+      .addEventListener("click", closeLightbox);
+    lightbox
+      .querySelector("[data-lightbox-prev]")
+      .addEventListener("click", () => showImage(currentIndex - 1));
+    lightbox
+      .querySelector("[data-lightbox-next]")
+      .addEventListener("click", () => showImage(currentIndex + 1));
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Touch swipe
+    let touchX = null;
+    lightbox.addEventListener(
+      "touchstart",
+      (e) => {
+        touchX = e.changedTouches[0].clientX;
+      },
+      { passive: true }
+    );
+    lightbox.addEventListener(
+      "touchend",
+      (e) => {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 45) showImage(currentIndex + (dx < 0 ? 1 : -1));
+        touchX = null;
+      },
+      { passive: true }
+    );
+  }
+
+  // ----- Keyboard -----
+  document.addEventListener("keydown", (e) => {
+    if (lightbox && lightbox.classList.contains("is-open")) {
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowLeft") showImage(currentIndex - 1);
+      else if (e.key === "ArrowRight") showImage(currentIndex + 1);
+      return;
+    }
+    if (designsModal.classList.contains("is-open") && e.key === "Escape") {
+      closeModal();
+    }
+  });
+}
+
+// ===== Order form -> prefilled WhatsApp message =====
+const orderForm = document.getElementById("orderForm");
+const orderSent = document.getElementById("orderSent");
+const orderRetry = document.getElementById("orderRetry");
+const WA_NUMBER = "919174080087";
+
+if (orderForm) {
+  const buildMessage = (data) => {
+    const lines = ["Hi Kakes by Khushi! I'd like to place an order 🎂", ""];
+    const add = (label, value) => {
+      if (value) lines.push(`${label}: ${value}`);
+    };
+    add("Name", data.name);
+    add("Item", data.item);
+    add("Flavour", data.flavour);
+    add("Size", data.size);
+    add("Needed by", data.date);
+    add("Delivery area", data.area);
+    add("Notes", data.notes);
+    return lines.join("\n");
+  };
+
+  const formatDate = (iso) => {
+    if (!iso) return "";
+    const d = new Date(iso + "T00:00:00");
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString("en-GB", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  let lastUrl = "";
+
+  const openWhatsApp = () => {
+    if (lastUrl) window.open(lastUrl, "_blank", "noopener");
+  };
+
+  orderForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!orderForm.reportValidity()) return;
+
+    const f = orderForm.elements;
+    const data = {
+      name: f["name"].value.trim(),
+      item: f["item"].value,
+      flavour: f["flavour"].value.trim(),
+      size: f["size"].value,
+      date: formatDate(f["date"].value),
+      area: f["area"].value,
+      notes: f["notes"].value.trim(),
+    };
+
+    const text = buildMessage(data);
+    lastUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+
+    openWhatsApp();
+
+    orderForm.hidden = true;
+    if (orderSent) {
+      orderSent.hidden = false;
+      orderSent.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
+
+  if (orderRetry) {
+    orderRetry.addEventListener("click", (e) => {
+      e.preventDefault();
+      openWhatsApp();
+    });
+  }
+}
 
 // Recompute heights of any open tiles when the layout width changes
 let resizeTimer;
