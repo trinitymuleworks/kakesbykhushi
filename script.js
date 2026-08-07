@@ -175,53 +175,57 @@ if (designsModal && designsGrid) {
   let currentIndex = 0;
   let activeList = simpleDesigns;
 
+  const createCell = (design, i, labelPrefix, withMeta, list) => {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "design-cell" + (withMeta ? " design-cell--meta" : "");
+    cell.setAttribute(
+      "aria-label",
+      withMeta
+        ? `View ${labelPrefix} ${i + 1} — ${design.weight}, ${design.price}`
+        : `View ${labelPrefix} ${i + 1}`
+    );
+
+    const img = document.createElement("img");
+    img.src = design.thumb;
+    img.alt = `${labelPrefix} ${i + 1}`;
+    img.loading = "lazy";
+    img.decoding = "async";
+    const markLoaded = () => cell.classList.add("is-loaded");
+    if (img.complete) markLoaded();
+    else {
+      img.addEventListener("load", markLoaded, { once: true });
+      img.addEventListener("error", markLoaded, { once: true });
+    }
+    cell.appendChild(img);
+
+    if (design.video) {
+      cell.classList.add("design-cell--video");
+      const play = document.createElement("span");
+      play.className = "design-cell__play";
+      play.setAttribute("aria-hidden", "true");
+      play.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+      cell.appendChild(play);
+    }
+
+    if (withMeta) {
+      const cap = document.createElement("span");
+      cap.className = "design-cell__cap";
+      cap.innerHTML =
+        `<span class="design-cell__wt">${design.weight}</span>` +
+        `<span class="design-cell__pr">${design.price}</span>`;
+      cell.appendChild(cap);
+    }
+
+    cell.addEventListener("click", () => openLightbox(list, i));
+    return cell;
+  };
+
   const buildGrid = (container, list, labelPrefix, withMeta) => {
     const frag = document.createDocumentFragment();
     list.forEach((design, i) => {
-      const cell = document.createElement("button");
-      cell.type = "button";
-      cell.className = "design-cell" + (withMeta ? " design-cell--meta" : "");
-      cell.setAttribute(
-        "aria-label",
-        withMeta
-          ? `View ${labelPrefix} ${i + 1} — ${design.weight}, ${design.price}`
-          : `View ${labelPrefix} ${i + 1}`
-      );
-
-      const img = document.createElement("img");
-      img.src = design.thumb;
-      img.alt = `${labelPrefix} ${i + 1}`;
-      img.loading = "lazy";
-      img.decoding = "async";
-      const markLoaded = () => cell.classList.add("is-loaded");
-      if (img.complete) markLoaded();
-      else {
-        img.addEventListener("load", markLoaded, { once: true });
-        img.addEventListener("error", markLoaded, { once: true });
-      }
-      cell.appendChild(img);
-
-      if (design.video) {
-        cell.classList.add("design-cell--video");
-        const play = document.createElement("span");
-        play.className = "design-cell__play";
-        play.setAttribute("aria-hidden", "true");
-        play.innerHTML =
-          '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-        cell.appendChild(play);
-      }
-
-      if (withMeta) {
-        const cap = document.createElement("span");
-        cap.className = "design-cell__cap";
-        cap.innerHTML =
-          `<span class="design-cell__wt">${design.weight}</span>` +
-          `<span class="design-cell__pr">${design.price}</span>`;
-        cell.appendChild(cap);
-      }
-
-      cell.addEventListener("click", () => openLightbox(list, i));
-      frag.appendChild(cell);
+      frag.appendChild(createCell(design, i, labelPrefix, withMeta, list));
     });
     container.appendChild(frag);
   };
@@ -251,9 +255,9 @@ if (designsModal && designsGrid) {
     ensureGrid(name);
   };
 
-  const openModal = () => {
+  const openModal = (tab = "simple") => {
     lastFocused = document.activeElement;
-    setTab("simple");
+    setTab(tab === "complex" ? "complex" : "simple");
     designsModal.classList.add("is-open");
     designsModal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
@@ -270,7 +274,19 @@ if (designsModal && designsGrid) {
     if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
   };
 
-  openBtns.forEach((b) => b.addEventListener("click", openModal));
+  openBtns.forEach((b) =>
+    b.addEventListener("click", () => openModal(b.dataset.openDesigns || "simple"))
+  );
+
+  // ----- Homepage preview strip (special/custom cakes) -----
+  const designsPreview = document.getElementById("designsPreview");
+  if (designsPreview) {
+    const frag = document.createDocumentFragment();
+    complexDesigns.slice(0, 8).forEach((design, i) => {
+      frag.appendChild(createCell(design, i, "custom cake", true, complexDesigns));
+    });
+    designsPreview.appendChild(frag);
+  }
   closeEls.forEach((el) => el.addEventListener("click", closeModal));
   tabs.forEach((t) => t.addEventListener("click", () => setTab(t.dataset.tab)));
 

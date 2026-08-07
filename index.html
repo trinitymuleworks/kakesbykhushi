@@ -67,9 +67,9 @@
       </a>
 
       <nav class="nav__links" id="navLinks">
-        <a href="#why">Why Us</a>
         <a href="#menu">Menu</a>
-        <a href="#offerings">Offerings</a>
+        <a href="#designs">Designs</a>
+        <a href="#why">Why Us</a>
         <a href="#areas">Areas</a>
         <a href="#reviews">Reviews</a>
         <a href="#order" class="nav__cta">Order Now</a>
@@ -120,27 +120,6 @@
     <span class="divider__line"></span><span class="divider__mark">&#10022;</span><span class="divider__line"></span>
   </div>
 
-  <!-- ===== Why Us ===== -->
-  <section class="section why" id="why">
-    <div class="section__head reveal">
-      <span class="eyebrow">Why Choose Us</span>
-      <h2>Handcrafted with care</h2>
-    </div>
-    <div class="pills reveal">
-      <span class="pill"><span class="pill__ic">🎂</span> Freshly Baked</span>
-      <span class="pill"><span class="pill__ic">🌿</span> 100% Pure Veg</span>
-      <span class="pill"><span class="pill__ic">🎨</span> Customized to You</span>
-      <span class="pill"><span class="pill__ic">✨</span> Premium Ingredients</span>
-      <span class="pill"><span class="pill__ic">👩‍🍳</span> Handcrafted</span>
-      <span class="pill"><span class="pill__ic">💛</span> Jain-Friendly Options</span>
-    </div>
-  </section>
-
-  <!-- ===== Divider ===== -->
-  <div class="divider reveal" aria-hidden="true">
-    <span class="divider__line"></span><span class="divider__mark">&#10022;</span><span class="divider__line"></span>
-  </div>
-
   <!-- ===== Cake Menu (from PDF) ===== -->
   <section class="section cakemenu" id="menu">
     <div class="section__head reveal">
@@ -173,7 +152,7 @@
               <li><span>Blueberry Moon</span><span>₹699 / ₹1199</span></li>
               <li><span>Red Velvet Indulgence</span><span>₹699 / ₹1199</span></li>
             </ul>
-            <button type="button" class="flav-designs-btn" data-open-designs>
+            <button type="button" class="flav-designs-btn" data-open-designs="simple">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><path d="M21 15l-4.5-4.5L7 20"/></svg>
               Explore our cake designs
             </button>
@@ -271,24 +250,44 @@
     <span class="divider__line"></span><span class="divider__mark">&#10022;</span><span class="divider__line"></span>
   </div>
 
-  <!-- ===== Offerings ===== -->
-  <section class="section menu" id="offerings">
+  <!-- ===== Signature Designs showcase ===== -->
+  <section class="section designs-showcase" id="designs">
     <div class="section__head reveal">
-      <span class="eyebrow">What We Offer</span>
-      <h2>Our sweet creations</h2>
-      <p class="section__lead">Unique, freshly-baked, 100% pure veg creations you won't find anywhere else.</p>
+      <span class="eyebrow">Custom Creations</span>
+      <h2>Our signature designs</h2>
+      <p class="section__lead">Handcrafted, made-to-order custom cakes — the heart of what we do. Every design can be baked in <strong>any flavour</strong> from our menu.</p>
+    </div>
+
+    <div class="designs-preview reveal" id="designsPreview" aria-label="Preview of our custom cake designs"></div>
+
+    <div class="designs-showcase__cta reveal">
+      <button type="button" class="btn btn--primary btn--lg" data-open-designs="complex">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><path d="M21 15l-4.5-4.5L7 20"/></svg>
+        View all designs
+      </button>
+      <button type="button" class="designs-showcase__link" data-open-designs="simple">See our simple designs →</button>
+    </div>
+  </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="divider reveal" aria-hidden="true">
+    <span class="divider__line"></span><span class="divider__mark">&#10022;</span><span class="divider__line"></span>
+  </div>
+
+  <!-- ===== Why Us ===== -->
+  <section class="section why" id="why">
+    <div class="section__head reveal">
+      <span class="eyebrow">Why Choose Us</span>
+      <h2>Handcrafted with care</h2>
     </div>
     <div class="pills reveal">
-      <span class="pill"><span class="pill__ic">🎂</span> Custom Cakes</span>
-      <span class="pill"><span class="pill__ic">🧁</span> Gourmet Cupcakes</span>
-      <span class="pill"><span class="pill__ic">🍮</span> Dessert Jars</span>
-      <span class="pill"><span class="pill__ic">🌸</span> Jain Cakes</span>
-      <span class="pill"><span class="pill__ic">🍵</span> Tea Cakes</span>
+      <span class="pill"><span class="pill__ic">🎂</span> Freshly Baked</span>
+      <span class="pill"><span class="pill__ic">🌿</span> 100% Pure Veg</span>
+      <span class="pill"><span class="pill__ic">🎨</span> Customized to You</span>
+      <span class="pill"><span class="pill__ic">✨</span> Premium Ingredients</span>
+      <span class="pill"><span class="pill__ic">👩‍🍳</span> Handcrafted</span>
+      <span class="pill"><span class="pill__ic">💛</span> Jain-Friendly Options</span>
     </div>
-    <p class="offer-note reveal">
-      Something special in mind?
-      <a href="https://wa.me/919174080087?text=Hi!%20I%20have%20a%20custom%20cake%20idea." target="_blank" rel="noopener">Tell us your idea →</a>
-    </p>
   </section>
 
   <!-- ===== Divider ===== -->
@@ -307,21 +306,6 @@
       <span>📍 Kondapur</span>
       <span>📍 Financial District</span>
       <span>📍 Hitech City</span>
-    </div>
-  </section>
-
-  <!-- ===== Order / Contact ===== -->
-  <section class="section order" id="order">
-    <div class="order__card reveal">
-      <h2>Give us one chance to be part of your celebration</h2>
-      <p>We're confident you'll taste the difference. Place your order today!</p>
-      <div class="order__actions">
-        <a class="btn btn--primary btn--lg" href="https://wa.me/919174080087?text=Hi%20Kakes%20by%20Khushi!%20I'd%20like%20to%20place%20an%20order." target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.72-.85-1.99-.94-.27-.1-.46-.15-.66.15-.19.29-.76.94-.93 1.13-.17.19-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.66-1.6-.9-2.19-.24-.57-.48-.49-.66-.5l-.56-.01c-.19 0-.51.07-.77.36-.27.29-1.01.99-1.01 2.42 0 1.43 1.04 2.81 1.19 3 .15.19 2.05 3.13 4.97 4.39.69.3 1.24.48 1.66.61.7.22 1.33.19 1.83.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34zM12.04 21.5h-.01a9.44 9.44 0 0 1-4.81-1.32l-.34-.2-3.57.94.95-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.03c0-5.22 4.25-9.47 9.48-9.47 2.53 0 4.9.99 6.69 2.78a9.42 9.42 0 0 1 2.77 6.7c0 5.22-4.25 9.47-9.49 9.47zM20.52 3.49A11.78 11.78 0 0 0 12.04 0C5.5 0 .18 5.32.18 11.86c0 2.09.55 4.13 1.59 5.93L.08 24l6.37-1.67a11.82 11.82 0 0 0 5.59 1.42h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.39-8.4z"/></svg>
-          +91 91740 80087
-        </a>
-        <a class="btn btn--ghost btn--lg" href="https://instagram.com/kakes_by_khushi" target="_blank" rel="noopener">@kakes_by_khushi</a>
-      </div>
     </div>
   </section>
 
@@ -355,6 +339,26 @@
         Review us on Google
       </a>
       <p class="reviews__note">Opens your Google Maps listing — just tap the stars and share a line.</p>
+    </div>
+  </section>
+
+  <!-- ===== Divider ===== -->
+  <div class="divider reveal" aria-hidden="true">
+    <span class="divider__line"></span><span class="divider__mark">&#10022;</span><span class="divider__line"></span>
+  </div>
+
+  <!-- ===== Order / Contact ===== -->
+  <section class="section order" id="order">
+    <div class="order__card reveal">
+      <h2>Give us one chance to be part of your celebration</h2>
+      <p>We're confident you'll taste the difference. Place your order today!</p>
+      <div class="order__actions">
+        <a class="btn btn--primary btn--lg" href="https://wa.me/919174080087?text=Hi%20Kakes%20by%20Khushi!%20I'd%20like%20to%20place%20an%20order." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.72-.85-1.99-.94-.27-.1-.46-.15-.66.15-.19.29-.76.94-.93 1.13-.17.19-.34.22-.63.07-.29-.15-1.23-.45-2.34-1.44-.86-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.66-1.6-.9-2.19-.24-.57-.48-.49-.66-.5l-.56-.01c-.19 0-.51.07-.77.36-.27.29-1.01.99-1.01 2.42 0 1.43 1.04 2.81 1.19 3 .15.19 2.05 3.13 4.97 4.39.69.3 1.24.48 1.66.61.7.22 1.33.19 1.83.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34zM12.04 21.5h-.01a9.44 9.44 0 0 1-4.81-1.32l-.34-.2-3.57.94.95-3.48-.22-.36a9.42 9.42 0 0 1-1.44-5.03c0-5.22 4.25-9.47 9.48-9.47 2.53 0 4.9.99 6.69 2.78a9.42 9.42 0 0 1 2.77 6.7c0 5.22-4.25 9.47-9.49 9.47zM20.52 3.49A11.78 11.78 0 0 0 12.04 0C5.5 0 .18 5.32.18 11.86c0 2.09.55 4.13 1.59 5.93L.08 24l6.37-1.67a11.82 11.82 0 0 0 5.59 1.42h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.23-6.15-3.39-8.4z"/></svg>
+          +91 91740 80087
+        </a>
+        <a class="btn btn--ghost btn--lg" href="https://instagram.com/kakes_by_khushi" target="_blank" rel="noopener">@kakes_by_khushi</a>
+      </div>
     </div>
   </section>
 
