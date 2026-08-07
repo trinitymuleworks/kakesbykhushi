@@ -23,12 +23,18 @@ jobs:
           server-dir: public_html/
           # Use "ftps" if BigRock supports it (recommended); otherwise "ftp"
           protocol: ftp
+          # NOTE: do NOT blanket-exclude *.jpg/*.jpeg — the design gallery
+          # images live in assets/designs and must be uploaded. Only skip
+          # the raw source folders and large one-off files.
           exclude: |
             **/.git*
             **/.git*/**
             **/.github/**
             **/node_modules/**
             README.md
+            WHATSAPP-SETUP.md
             *.pdf
-            *.jpeg
-            *.jpg
+            *.zip
+            simplecakes/**
+            specialcakes/**
+            posters.jpeg
