@@ -757,6 +757,53 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   0% { background-position: 100% 0; }
   100% { background-position: 0 0; }
 }
+/* Weight/price caption on complex (custom) design cells */
+.design-cell--meta::after {
+  opacity: 1;
+  background: linear-gradient(to top, rgba(58, 43, 47, 0.7), rgba(58, 43, 47, 0.05) 55%, transparent 75%);
+}
+.design-cell__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 8px 10px;
+  color: #fff;
+  pointer-events: none;
+}
+.design-cell__wt { font-size: 0.76rem; font-weight: 500; opacity: 0.92; }
+.design-cell__pr {
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Weight/price shown in the lightbox */
+.lightbox__meta {
+  position: absolute;
+  bottom: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  white-space: nowrap;
+}
+.lightbox__meta .lightbox__wt { color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; font-weight: 500; }
+.lightbox__meta .lightbox__pr {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+/* When meta is present, nudge the counter up so both are readable */
+.lightbox__stage:has(.lightbox__meta:not([hidden])) .lightbox__count { bottom: -54px; }
 .designs__empty {
   text-align: center;
   padding: 56px 20px;

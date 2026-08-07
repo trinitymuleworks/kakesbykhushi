@@ -123,7 +123,6 @@ flipTiles.forEach((tile) => {
 });
 
 // ===== Cake designs gallery =====
-const DESIGN_COUNT_SIMPLE = 39;
 const buildDesignList = (folder, count) =>
   Array.from({ length: count }, (_, i) => {
     const n = String(i + 1).padStart(2, "0");
@@ -133,7 +132,25 @@ const buildDesignList = (folder, count) =>
     };
   });
 
-const simpleDesigns = buildDesignList("simple", DESIGN_COUNT_SIMPLE);
+const simpleDesigns = buildDesignList("simple", 39);
+
+const complexDesigns = [
+  { thumb: "assets/designs/complex/thumbs/complex-01.jpg", full: "assets/designs/complex/complex-01.jpg", weight: "0.5 kg", price: "₹1000" },
+  { thumb: "assets/designs/complex/thumbs/complex-02.jpg", full: "assets/designs/complex/complex-02.jpg", weight: "0.5 kg", price: "₹1000" },
+  { thumb: "assets/designs/complex/thumbs/complex-03.jpg", full: "assets/designs/complex/complex-03.jpg", weight: "0.5 kg", price: "₹1000" },
+  { thumb: "assets/designs/complex/thumbs/complex-04.jpg", full: "assets/designs/complex/complex-04.jpg", weight: "0.5 kg", price: "₹1000" },
+  { thumb: "assets/designs/complex/thumbs/complex-05.jpg", full: "assets/designs/complex/complex-05.jpg", weight: "0.5 kg", price: "₹1200" },
+  { thumb: "assets/designs/complex/thumbs/complex-06.jpg", full: "assets/designs/complex/complex-06.jpg", weight: "0.5 kg", price: "₹1200" },
+  { thumb: "assets/designs/complex/thumbs/complex-07.jpg", full: "assets/designs/complex/complex-07.jpg", weight: "0.5 kg", price: "₹1200" },
+  { thumb: "assets/designs/complex/thumbs/complex-08.jpg", full: "assets/designs/complex/complex-08.jpg", weight: "0.5 kg", price: "₹1200" },
+  { thumb: "assets/designs/complex/thumbs/complex-09.jpg", full: "assets/designs/complex/complex-09.jpg", weight: "0.5 kg", price: "₹1200" },
+  { thumb: "assets/designs/complex/thumbs/complex-10.jpg", full: "assets/designs/complex/complex-10.jpg", weight: "0.5 kg", price: "₹1500" },
+  { thumb: "assets/designs/complex/thumbs/complex-11.jpg", full: "assets/designs/complex/complex-11.jpg", weight: "0.5 kg", price: "₹1500" },
+  { thumb: "assets/designs/complex/thumbs/complex-12.jpg", full: "assets/designs/complex/complex-12.jpg", weight: "1 kg", price: "₹1500" },
+  { thumb: "assets/designs/complex/thumbs/complex-13.jpg", full: "assets/designs/complex/complex-13.jpg", weight: "1.5 kg", price: "₹2000" },
+  { thumb: "assets/designs/complex/thumbs/complex-14.jpg", full: "assets/designs/complex/complex-14.jpg", weight: "1.5 kg", price: "₹2500" },
+  { thumb: "assets/designs/complex/thumbs/complex-15.jpg", full: "assets/designs/complex/complex-15.jpg", weight: "1.5 kg", price: "₹3000" },
+];
 
 const designsModal = document.getElementById("designsModal");
 const designsGrid = document.getElementById("designsGrid");
@@ -143,28 +160,35 @@ if (designsModal && designsGrid) {
   const openBtns = document.querySelectorAll("[data-open-designs]");
   const closeEls = designsModal.querySelectorAll("[data-close-designs]");
   const tabs = designsModal.querySelectorAll(".designs__tab");
+  const noteSimple = designsModal.querySelector(".designs__note:not(.designs__note--complex)");
+  const noteComplex = designsModal.querySelector(".designs__note--complex");
 
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImg");
   const lightboxCount = document.getElementById("lightboxCount");
+  const lightboxMeta = document.getElementById("lightboxMeta");
 
-  let gridBuilt = false;
+  const built = { simple: false, complex: false };
   let lastFocused = null;
   let currentIndex = 0;
+  let activeList = simpleDesigns;
 
-  const buildGrid = () => {
-    if (gridBuilt) return;
+  const buildGrid = (container, list, labelPrefix, withMeta) => {
     const frag = document.createDocumentFragment();
-    simpleDesigns.forEach((design, i) => {
+    list.forEach((design, i) => {
       const cell = document.createElement("button");
       cell.type = "button";
-      cell.className = "design-cell";
-      cell.setAttribute("aria-label", `View cake design ${i + 1}`);
-      cell.dataset.index = String(i);
+      cell.className = "design-cell" + (withMeta ? " design-cell--meta" : "");
+      cell.setAttribute(
+        "aria-label",
+        withMeta
+          ? `View ${labelPrefix} ${i + 1} — ${design.weight}, ${design.price}`
+          : `View ${labelPrefix} ${i + 1}`
+      );
 
       const img = document.createElement("img");
       img.src = design.thumb;
-      img.alt = `Cake design ${i + 1}`;
+      img.alt = `${labelPrefix} ${i + 1}`;
       img.loading = "lazy";
       img.decoding = "async";
       const markLoaded = () => cell.classList.add("is-loaded");
@@ -173,13 +197,32 @@ if (designsModal && designsGrid) {
         img.addEventListener("load", markLoaded, { once: true });
         img.addEventListener("error", markLoaded, { once: true });
       }
-
       cell.appendChild(img);
-      cell.addEventListener("click", () => openLightbox(i));
+
+      if (withMeta) {
+        const cap = document.createElement("span");
+        cap.className = "design-cell__cap";
+        cap.innerHTML =
+          `<span class="design-cell__wt">${design.weight}</span>` +
+          `<span class="design-cell__pr">${design.price}</span>`;
+        cell.appendChild(cap);
+      }
+
+      cell.addEventListener("click", () => openLightbox(list, i));
       frag.appendChild(cell);
     });
-    designsGrid.appendChild(frag);
-    gridBuilt = true;
+    container.appendChild(frag);
+  };
+
+  const ensureGrid = (name) => {
+    if (name === "simple" && !built.simple) {
+      buildGrid(designsGrid, simpleDesigns, "cake design", false);
+      built.simple = true;
+    }
+    if (name === "complex" && !built.complex && designsComplex) {
+      buildGrid(designsComplex, complexDesigns, "custom cake", true);
+      built.complex = true;
+    }
   };
 
   const setTab = (name) => {
@@ -191,13 +234,13 @@ if (designsModal && designsGrid) {
     const showSimple = name === "simple";
     designsGrid.hidden = !showSimple;
     if (designsComplex) designsComplex.hidden = showSimple;
-    const body = designsModal.querySelector(".designs__note");
-    if (body) body.hidden = !showSimple;
+    if (noteSimple) noteSimple.hidden = !showSimple;
+    if (noteComplex) noteComplex.hidden = showSimple;
+    ensureGrid(name);
   };
 
   const openModal = () => {
     lastFocused = document.activeElement;
-    buildGrid();
     setTab("simple");
     designsModal.classList.add("is-open");
     designsModal.setAttribute("aria-hidden", "false");
@@ -221,17 +264,30 @@ if (designsModal && designsGrid) {
 
   // ----- Lightbox -----
   const showImage = (i) => {
-    currentIndex = (i + simpleDesigns.length) % simpleDesigns.length;
+    currentIndex = (i + activeList.length) % activeList.length;
+    const d = activeList[currentIndex];
     lightboxImg.classList.remove("is-loaded");
-    lightboxImg.src = simpleDesigns[currentIndex].full;
+    lightboxImg.src = d.full;
     lightboxImg.alt = `Cake design ${currentIndex + 1}`;
     if (lightboxImg.complete) lightboxImg.classList.add("is-loaded");
     if (lightboxCount)
-      lightboxCount.textContent = `${currentIndex + 1} / ${simpleDesigns.length}`;
+      lightboxCount.textContent = `${currentIndex + 1} / ${activeList.length}`;
+    if (lightboxMeta) {
+      if (d.weight || d.price) {
+        lightboxMeta.hidden = false;
+        lightboxMeta.innerHTML =
+          `<span class="lightbox__wt">${d.weight}</span>` +
+          `<span class="lightbox__pr">${d.price}</span>`;
+      } else {
+        lightboxMeta.hidden = true;
+        lightboxMeta.innerHTML = "";
+      }
+    }
   };
 
-  function openLightbox(i) {
+  function openLightbox(list, i) {
     if (!lightbox) return;
+    activeList = list;
     showImage(i);
     lightbox.classList.add("is-open");
     lightbox.setAttribute("aria-hidden", "false");

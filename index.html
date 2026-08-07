@@ -401,15 +401,11 @@
       </div>
 
       <div class="designs__body">
-        <p class="designs__note">Any design below can be made in <strong>any flavour</strong> from our menu. 💛</p>
+        <p class="designs__note">Any design below can be made in <strong>any flavour</strong> from our menu — at <strong>no extra charge</strong>. You just pay the flavour's price listed in the Cakes menu. 💛</p>
         <div class="designs__grid" id="designsGrid" role="tabpanel" aria-label="Simple designs"></div>
 
-        <div class="designs__complex" id="designsComplex" role="tabpanel" aria-label="Complex and custom designs" hidden>
-          <div class="designs__empty">
-            <span class="designs__empty-ic" aria-hidden="true">🎨</span>
-            <p>Complex &amp; custom designs coming soon.</p>
-          </div>
-        </div>
+        <p class="designs__note designs__note--complex" hidden>Handcrafted custom designs, made to order — any design in <strong>any flavour</strong> from our menu. 💛</p>
+        <div class="designs__grid" id="designsComplex" role="tabpanel" aria-label="Complex and custom designs" hidden></div>
       </div>
     </div>
   </div>
@@ -424,6 +420,7 @@
     </button>
     <div class="lightbox__stage">
       <img class="lightbox__img" id="lightboxImg" src="" alt="Cake design preview" />
+      <div class="lightbox__meta" id="lightboxMeta" hidden></div>
       <span class="lightbox__count" id="lightboxCount"></span>
     </div>
     <button type="button" class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next design">
