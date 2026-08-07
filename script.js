@@ -135,6 +135,7 @@ const buildDesignList = (folder, count) =>
 const simpleDesigns = buildDesignList("simple", 39);
 
 const complexDesigns = [
+  { thumb: "assets/designs/complex/thumbs/complex-16.jpg", full: "assets/designs/complex/complex-16.jpg", video: "assets/designs/complex/complex-16.mp4", weight: "0.5 kg", price: "₹2000" },
   { thumb: "assets/designs/complex/thumbs/complex-01.jpg", full: "assets/designs/complex/complex-01.jpg", weight: "0.5 kg", price: "₹1000" },
   { thumb: "assets/designs/complex/thumbs/complex-02.jpg", full: "assets/designs/complex/complex-02.jpg", weight: "0.5 kg", price: "₹1000" },
   { thumb: "assets/designs/complex/thumbs/complex-03.jpg", full: "assets/designs/complex/complex-03.jpg", weight: "0.5 kg", price: "₹1000" },
@@ -146,7 +147,6 @@ const complexDesigns = [
   { thumb: "assets/designs/complex/thumbs/complex-09.jpg", full: "assets/designs/complex/complex-09.jpg", weight: "0.5 kg", price: "₹1200" },
   { thumb: "assets/designs/complex/thumbs/complex-10.jpg", full: "assets/designs/complex/complex-10.jpg", weight: "0.5 kg", price: "₹1500" },
   { thumb: "assets/designs/complex/thumbs/complex-11.jpg", full: "assets/designs/complex/complex-11.jpg", weight: "0.5 kg", price: "₹1500" },
-  { thumb: "assets/designs/complex/thumbs/complex-16.jpg", full: "assets/designs/complex/complex-16.jpg", video: "assets/designs/complex/complex-16.mp4", weight: "0.5 kg", price: "₹2000" },
   { thumb: "assets/designs/complex/thumbs/complex-12.jpg", full: "assets/designs/complex/complex-12.jpg", weight: "1 kg", price: "₹1500" },
   { thumb: "assets/designs/complex/thumbs/complex-13.jpg", full: "assets/designs/complex/complex-13.jpg", weight: "1.5 kg", price: "₹2000" },
   { thumb: "assets/designs/complex/thumbs/complex-14.jpg", full: "assets/designs/complex/complex-14.jpg", weight: "1.5 kg", price: "₹2500" },
