@@ -146,6 +146,7 @@ const complexDesigns = [
   { thumb: "assets/designs/complex/thumbs/complex-09.jpg", full: "assets/designs/complex/complex-09.jpg", weight: "0.5 kg", price: "₹1200" },
   { thumb: "assets/designs/complex/thumbs/complex-10.jpg", full: "assets/designs/complex/complex-10.jpg", weight: "0.5 kg", price: "₹1500" },
   { thumb: "assets/designs/complex/thumbs/complex-11.jpg", full: "assets/designs/complex/complex-11.jpg", weight: "0.5 kg", price: "₹1500" },
+  { thumb: "assets/designs/complex/thumbs/complex-16.jpg", full: "assets/designs/complex/complex-16.jpg", video: "assets/designs/complex/complex-16.mp4", weight: "0.5 kg", price: "₹2000" },
   { thumb: "assets/designs/complex/thumbs/complex-12.jpg", full: "assets/designs/complex/complex-12.jpg", weight: "1 kg", price: "₹1500" },
   { thumb: "assets/designs/complex/thumbs/complex-13.jpg", full: "assets/designs/complex/complex-13.jpg", weight: "1.5 kg", price: "₹2000" },
   { thumb: "assets/designs/complex/thumbs/complex-14.jpg", full: "assets/designs/complex/complex-14.jpg", weight: "1.5 kg", price: "₹2500" },
@@ -165,6 +166,7 @@ if (designsModal && designsGrid) {
 
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxVideo = document.getElementById("lightboxVideo");
   const lightboxCount = document.getElementById("lightboxCount");
   const lightboxMeta = document.getElementById("lightboxMeta");
 
@@ -198,6 +200,16 @@ if (designsModal && designsGrid) {
         img.addEventListener("error", markLoaded, { once: true });
       }
       cell.appendChild(img);
+
+      if (design.video) {
+        cell.classList.add("design-cell--video");
+        const play = document.createElement("span");
+        play.className = "design-cell__play";
+        play.setAttribute("aria-hidden", "true");
+        play.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+        cell.appendChild(play);
+      }
 
       if (withMeta) {
         const cap = document.createElement("span");
@@ -263,13 +275,34 @@ if (designsModal && designsGrid) {
   tabs.forEach((t) => t.addEventListener("click", () => setTab(t.dataset.tab)));
 
   // ----- Lightbox -----
+  const stopVideo = () => {
+    if (lightboxVideo && !lightboxVideo.hidden) {
+      lightboxVideo.pause();
+      lightboxVideo.removeAttribute("src");
+      lightboxVideo.load();
+    }
+  };
+
   const showImage = (i) => {
     currentIndex = (i + activeList.length) % activeList.length;
     const d = activeList[currentIndex];
-    lightboxImg.classList.remove("is-loaded");
-    lightboxImg.src = d.full;
-    lightboxImg.alt = `Cake design ${currentIndex + 1}`;
-    if (lightboxImg.complete) lightboxImg.classList.add("is-loaded");
+    stopVideo();
+    if (d.video && lightboxVideo) {
+      lightboxImg.hidden = true;
+      lightboxImg.removeAttribute("src");
+      lightboxVideo.hidden = false;
+      lightboxVideo.poster = d.full;
+      lightboxVideo.src = d.video;
+      const play = lightboxVideo.play();
+      if (play && typeof play.catch === "function") play.catch(() => {});
+    } else {
+      if (lightboxVideo) lightboxVideo.hidden = true;
+      lightboxImg.hidden = false;
+      lightboxImg.classList.remove("is-loaded");
+      lightboxImg.src = d.full;
+      lightboxImg.alt = `Cake design ${currentIndex + 1}`;
+      if (lightboxImg.complete) lightboxImg.classList.add("is-loaded");
+    }
     if (lightboxCount)
       lightboxCount.textContent = `${currentIndex + 1} / ${activeList.length}`;
     if (lightboxMeta) {
@@ -296,6 +329,7 @@ if (designsModal && designsGrid) {
 
   const closeLightbox = () => {
     if (!lightbox) return;
+    stopVideo();
     lightbox.classList.remove("is-open");
     lightbox.setAttribute("aria-hidden", "true");
     if (!designsModal.classList.contains("is-open")) {
