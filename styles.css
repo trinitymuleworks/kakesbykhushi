@@ -853,6 +853,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
 @media (max-width: 620px) {
   .designs-preview {
     display: flex;
+    align-items: flex-start;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: 10px;
@@ -866,6 +867,10 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.15; font-weight: 600;
   .designs-preview::-webkit-scrollbar { display: none; }
   .designs-preview .design-cell {
     flex: 0 0 46%;
+    width: 46%;
+    height: 46vw;
+    max-height: 260px;
+    aspect-ratio: auto;
     scroll-snap-align: start;
   }
 }
